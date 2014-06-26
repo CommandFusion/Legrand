@@ -1,0 +1,565 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gui>
+  <properties>
+    <project>CommandFusion Demo</project>
+    <designer>CommandFusion</designer>
+    <size autoposition="scale">
+      <portrait width="768" height="1024" />
+      <landscape width="1024" height="768" />
+    </size>
+    <autoposition />
+    <imagefolder>
+    </imagefolder>
+    <debug loaderrors="0" connectionerrors="0" />
+    <devices>
+      <device name="CF Malaysia iPad4">E4BFE0FB008BFDAEB7C56BE8973ADA5D</device>
+    </devices>
+  </properties>
+  <systems>
+    <system name="Loopback" protocol="tcp" accept="0" ip="127.0.0.1" port="10207" origin="0" alwayson="1" idleTimeout="0" dialogTimeout="0" heartbeatMode="-1" heartbeatRx="" heartbeatTx="" textEncoding="" eom="" js="" connectionStatus="0" disconnectionStatus="0" startupCmd="ToggleStatusbar" startupMacro="None" offlinequeue="1" ssl="0">
+      <cmd name="ToggleStatusbar" target="d17922" value="1">1</cmd>
+      <cmd name="fbLightOn">*1*1*0110##</cmd>
+      <cmd name="fbLightOff">*1*0*0110##</cmd>
+      <cmd name="sim_Light_Slider_L4" js="demo.sliderLightSim(data,demo.lightL4)" jsSendsCommand="True">{{[sliderval]/10}}</cmd>
+      <cmd name="L1_On">*1*1*11##</cmd>
+      <cmd name="L1_Off">*1*0*11##</cmd>
+      <cmd name="L2_On">*1*1*12##</cmd>
+      <cmd name="L3_On">*1*1*13##</cmd>
+      <cmd name="L4_On" target="a12014" value="65535">*1*1*14##</cmd>
+      <cmd name="L2_Off">*1*0*12##</cmd>
+      <cmd name="L3_Off">*1*0*13##</cmd>
+      <cmd name="L4_Off">*1*0*14##</cmd>
+      <cmd name="Curtains_Open">*2*2*50##</cmd>
+      <cmd name="Curtains_Stop">*2*0*50##</cmd>
+      <cmd name="Curtains_Close">*2*1*50##</cmd>
+      <cmd name="L4_20pct">*1*2*14##</cmd>
+      <cmd name="L4_40pct">*1*4*14##</cmd>
+      <cmd name="L4_60pct">*1*6*14##</cmd>
+      <cmd name="L4_80pct">*1*8*14##</cmd>
+      <cmd name="L4_100pct">*1*10*14##</cmd>
+      <cmd name="simStartupStatus" js="demo.simStartupStatus()" jsSendsCommand="False">0</cmd>
+      <fb name="SimulateFB" regex="(.*)">
+        <group index="1" name="" datatype="s" target="s54321" />
+      </fb>
+    </system>
+    <system name="LegrandFB" protocol="tcp" accept="0" ip="192.168.1.35" port="20000" origin="0" alwayson="1" idleTimeout="0" dialogTimeout="0" heartbeatMode="-1" heartbeatRx="" heartbeatTx="" textEncoding="" eom="##" js="" connectionStatus="0" disconnectionStatus="0" startupCmd="Monitor" startupMacro="" offlinequeue="0" ssl="0">
+      <cmd name="Monitor">*99*1##</cmd>
+      <fb name="IncomingFB" regex="(.*)">
+        <group index="1" name="" datatype="s" target="s12345" />
+      </fb>
+    </system>
+    <system name="LegrandCmd" protocol="tcp" accept="0" ip="192.168.1.35" port="20000" origin="0" alwayson="0" idleTimeout="0" dialogTimeout="0" heartbeatMode="-1" heartbeatRx="" heartbeatTx="" textEncoding="" eom="##" js="" connectionStatus="0" disconnectionStatus="0" startupCmd="" startupMacro="" offlinequeue="0" ssl="0">
+      <cmd name="Light_Slider_L4" js="demo.sliderLight(data,demo.lightL4)" jsSendsCommand="True" folder="LightingSlider">{{[sliderval]/10}}</cmd>
+      <cmd name="statusAllAutomation">*#2*0##</cmd>
+      <cmd name="statusAllLights">*#1*0##</cmd>
+      <cmd name="statusAllScenarios">*#0*0##</cmd>
+    </system>
+  </systems>
+  <macros>
+    <macro name="requestAllStatus">
+      <command delay="1000">statusAllLights</command>
+      <command delay="2000">statusAllAutomation</command>
+      <command delay="500">simStartupStatus</command>
+    </macro>
+  </macros>
+  <themes>
+    <theme type="background" name=".bg_landscape"><![CDATA[ background-image: url(floorplan.png); background-repeat: no-repeat;]]></theme>
+    <theme type="button" name=".btn_sq_small_stretch[state='0']"><![CDATA[padding: 0px 10px 0px 10px; -webkit-border-image: url(btn_sq_small_off.png) 0 10 0 10; text-shadow: rgba(255,255,255,0.78) 0px 1px 0px; color: #404040; font-size: 12px; font-family: 'Verdana'; font-weight: bold; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".btn_sq_small_stretch[state='1']"><![CDATA[padding: 0px 10px 0px 10px; -webkit-border-image: url(btn_sq_small_on.png) 0 10 0 10; text-shadow: rgba(0,0,0,0.78) 0px -1px 0px; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: bold; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="text" name=".text_left_black"><![CDATA[ color: Black; font-size: 14px; font-family: 'Verdana'; text-align: left; vertical-align: middle; font-weight: bold; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_label"><![CDATA[ color: #1BABFF; font-size: 44px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="button" name=".control_curtain[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(curtain_close.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".control_curtain[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(curtain_open.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".lightoff[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(light_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".lightoff[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(light_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".lighton[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(light_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".lighton[state='1']"><![CDATA[padding: 0px 0px 0px 0px; color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="gauge" name=".slider[state='0']"><![CDATA[ background-image: url(Slider_small_250x33_off.png);]]></theme>
+    <theme type="gauge" name=".slider[state='1']"><![CDATA[ background-image: url(Slider_small_250x33_on.png);]]></theme>
+    <theme type="text" name=".text"><![CDATA[ color: White; font-size: 12px; font-family: 'Arial'; text-align: center; vertical-align: top; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="button" name=".lights_chandelier[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(lights_chandelier_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".lights_chandelier[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(lights_chandelier_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".control_lights_round[state='0']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(lights_round_off.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="button" name=".control_lights_round[state='1']"><![CDATA[padding: 0px 0px 0px 0px; background-image: url(lights_round_on.png); color: White; font-size: 12px; font-family: 'Verdana'; font-weight: normal; font-style: none; text-decoration: none; text-align: center; vertical-align: middle; display: table-cell; box-sizing: border-box; -webkit-box-sizing: border-box; -webkit-tap-highlight-color:rgba(0,0,0,0);]]></theme>
+    <theme type="text" name=".text_label_small"><![CDATA[ color: #1BABFF; font-size: 32px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+    <theme type="text" name=".text_curtain"><![CDATA[ color: #1BABFF; font-size: 30px; font-family: 'Verdana'; text-align: center; vertical-align: middle; font-weight: normal; font-style: none; text-decoration: none; display: table-cell;]]></theme>
+  </themes>
+  <tokens>
+    <token name="interlock_scenario" value="4000,4001,4002,4003" persist="1" />
+    <token name="interlock_curtains" value="3350,3250,3150" persist="1" />
+    <token name="interlock_scenario_sim" value="14000,14001,14002,14003" persist="1" />
+    <token name="interlock_curtains_sim" value="13350,13250,13150" persist="1" />
+  </tokens>
+  <scripts>
+    <script name="interlock.js" />
+    <script name="legrand.js" />
+  </scripts>
+  <page name="ControllerMode" j="0" tags="" transition="None" subtype="None" time="0" ease="" start="1">
+    <portrait />
+    <landscape t="bg_landscape">
+      <img x="558" y="535" w="320" h="230" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="573" y="554" w="290" h="200" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_lighting_menu.png</img>
+      <slider j="2014" d="0" x="603" y="624" w="230" h="33" min="20" max="100" decimals="0" pressCmd="Light_Slider_L4" dragCmd="Light_Slider_L4" releaseCmd="Light_Slider_L4" unit="decimal" t="slider" sim="0" l="0" tags="" />
+      <txt j="0" x="609" y="662" w="224" h="20" t="text" wrap="False" l="0" tags="">Lighting Dimming Level</txt>
+      <btn j="0" x="586" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" js="demo.cmdLight20pc(demo.lightL4)">
+        <inactive s="0">20%</inactive>
+        <active s="0">20%</active>
+      </btn>
+      <btn j="0" x="640" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" js="demo.cmdLight40pc(demo.lightL4)">
+        <inactive s="0">40%</inactive>
+        <active s="0">40%</active>
+      </btn>
+      <btn j="0" x="693" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" js="demo.cmdLight60pc(demo.lightL4)">
+        <inactive s="0">60%</inactive>
+        <active s="0">60%</active>
+      </btn>
+      <btn j="0" x="746" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" js="demo.cmdLight80pc(demo.lightL4)">
+        <inactive s="0">80%</inactive>
+        <active s="0">80%</active>
+      </btn>
+      <btn j="0" x="800" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" js="demo.cmdLight100pc(demo.lightL4)">
+        <inactive s="0">100%</inactive>
+        <active s="0">100%</active>
+      </btn>
+      <btn j="0" x="598" y="578" w="40" h="37" t="lightoff" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOff(demo.lightL4)">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="0" x="798" y="578" w="40" h="37" t="lighton" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOn(demo.lightL4)">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="0" x="579" y="540" w="278" h="20" t="text" wrap="False" l="0" tags="">Actuator L4 Dimming : Dining Area</txt>
+      <btn j="4002" x="906" y="649" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.cmdScenario3()">
+        <inactive s="0">Scenario 3</inactive>
+        <active s="0">Scenario 3</active>
+      </btn>
+      <btn j="4003" x="906" y="706" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.cmdScenario4()">
+        <inactive s="0">Scenario 4</inactive>
+        <active s="0">Scenario 4</active>
+      </btn>
+      <btn j="4000" x="906" y="536" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.cmdScenario1()">
+        <inactive s="0">Scenario 1</inactive>
+        <active s="0">Scenario 1</active>
+      </btn>
+      <btn j="4001" x="906" y="593" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.cmdScenario2()">
+        <inactive s="0">Scenario 2</inactive>
+        <active s="0">Scenario 2</active>
+      </btn>
+      <btn j="2011" x="37" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2012" x="361" y="402" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2012" x="361" y="342" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2012" x="411" y="342" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="3050" x="873" y="392" w="45" h="45" t="control_curtain" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="3050" x="787" y="392" w="45" h="45" t="control_curtain" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2011" x="115" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2011" x="193" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2011" x="193" y="379" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2011" x="193" y="474" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="0" x="5" y="35" w="460" h="51" t="text_label" wrap="True" l="0" tags="">CONTROLLER MODE</txt>
+      <txt j="12345" x="809" y="47" w="200" h="31" t="text_left_black" wrap="True" l="0" tags="">(string)</txt>
+      <img x="9" y="106" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="26" y="128" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="31" y="113" w="280" h="20" t="text" wrap="False" l="0" tags="">Actuator L1 On/Off : Car Porch</txt>
+      <btn j="5011" x="73" y="213" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOn(demo.lightL1)">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="6011" x="177" y="214" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOff(demo.lightL1)">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="2011" x="47" y="145" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <img x="353" y="106" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="370" y="128" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="404" y="113" w="224" h="20" t="text" wrap="False" l="0" tags="">Actuator L2 On/Off : Kitchen</txt>
+      <btn j="5012" x="417" y="213" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOn(demo.lightL2)">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="6012" x="521" y="214" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOff(demo.lightL2)">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="2012" x="391" y="145" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <img x="177" y="582" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="194" y="605" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="228" y="590" w="224" h="20" t="text" wrap="False" l="0" tags="">Actuator L3 On/Off : Entrance</txt>
+      <btn j="5013" x="241" y="690" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOn(demo.lightL3)">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="6013" x="345" y="691" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" js="demo.cmdLightOff(demo.lightL3)">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="2013" x="215" y="622" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <btn j="2013" x="403" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2013" x="334" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="2013" x="266" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="2014" x="640" y="572" w="161" h="50" t="text_label_small" wrap="True" l="0" tags="">Lights</txt>
+      <img x="694" y="106" w="310" h="181" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <txt j="0" x="694" y="110" w="310" h="20" t="text" wrap="True" l="0" tags="">Automation : Curtains</txt>
+      <img x="704" y="126" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="3050" x="725" y="140" w="249" h="59" t="text_curtain" wrap="True" l="0" tags="">Curtains</txt>
+      <btn j="3250" x="815" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="" js="demo.cmdCurtain1Stop()">
+        <inactive s="0">
+          <img x="12" y="2" w="45" h="45">transport_med_stop_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="12" y="2" w="45" h="45">transport_med_stop_on.png</img>
+        </active>
+      </btn>
+      <btn j="3150" x="894" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="" js="demo.cmdCurtain1Close()">
+        <inactive s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_close_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_close_on.png</img>
+        </active>
+      </btn>
+      <btn j="3350" x="735" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="" js="demo.cmdCurtain1Open()">
+        <inactive s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_open_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_open_on.png</img>
+        </active>
+      </btn>
+      <txt j="0" x="683" y="47" w="130" h="36" t="text_left_black" wrap="True" l="0" tags="">Feedback from 
+Legrand :</txt>
+      <btn j="0" x="482" y="34" w="112" h="52" t="btn_sq_small_stretch" flip="SimulationMode" sim="1" l="0" s="1" tags="">
+        <inactive s="0">Simulation Mode</inactive>
+        <active s="0">Simulation Mode</active>
+      </btn>
+      <img x="611" y="482" w="40" h="40" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">lights_chandelier_off.png</img>
+      <btn j="2014" x="611" y="482" w="40" h="40" t="lights_chandelier" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+    </landscape>
+  </page>
+  <page name="SimulationMode" j="0" tags="" transition="None" subtype="None" time="0" ease="">
+    <portrait />
+    <landscape t="bg_landscape">
+      <img x="558" y="535" w="320" h="230" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="573" y="554" w="290" h="200" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_lighting_menu.png</img>
+      <slider j="12014" d="0" x="603" y="624" w="230" h="33" min="20" max="100" decimals="0" pressCmd="sim_Light_Slider_L4" dragCmd="sim_Light_Slider_L4" releaseCmd="sim_Light_Slider_L4" unit="decimal" t="slider" sim="0" l="0" tags="" />
+      <txt j="0" x="609" y="662" w="224" h="20" t="text" wrap="False" l="0" tags="">Lighting Dimming Level</txt>
+      <btn j="0" x="586" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" cmd="L4_20pct">
+        <inactive s="0">20%</inactive>
+        <active s="0">20%</active>
+      </btn>
+      <btn j="0" x="640" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" cmd="L4_40pct">
+        <inactive s="0">40%</inactive>
+        <active s="0">40%</active>
+      </btn>
+      <btn j="0" x="693" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" cmd="L4_60pct">
+        <inactive s="0">60%</inactive>
+        <active s="0">60%</active>
+      </btn>
+      <btn j="0" x="746" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" cmd="L4_80pct">
+        <inactive s="0">80%</inactive>
+        <active s="0">80%</active>
+      </btn>
+      <btn j="0" x="800" y="690" w="52" h="52" t="btn_sq_small_stretch" flip="None" sim="1" l="0" s="1" tags="" cmd="L4_100pct">
+        <inactive s="0">100%</inactive>
+        <active s="0">100%</active>
+      </btn>
+      <btn j="0" x="598" y="578" w="40" h="37" t="lightoff" flip="None" sim="0" l="0" s="1" tags="" cmd="L4_Off">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="0" x="798" y="578" w="40" h="37" t="lighton" flip="None" sim="0" l="0" s="1" tags="" cmd="L4_On">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="0" x="579" y="540" w="278" h="20" t="text" wrap="False" l="0" tags="">Actuator L4 Dimming : Dining Area</txt>
+      <btn j="14002" x="906" y="649" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.simScenario3()">
+        <inactive s="0">Home</inactive>
+        <active s="0">Home</active>
+      </btn>
+      <btn j="14003" x="906" y="706" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.simScenario4()">
+        <inactive s="0">Away</inactive>
+        <active s="0">Away</active>
+      </btn>
+      <btn j="14000" x="906" y="536" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.simScenario1()">
+        <inactive s="0">Master On</inactive>
+        <active s="0">Master On</active>
+      </btn>
+      <btn j="14001" x="906" y="593" w="112" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="1" tags="" js="demo.simScenario2()">
+        <inactive s="0">Master Off</inactive>
+        <active s="0">Master Off</active>
+      </btn>
+      <btn j="12011" x="37" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12012" x="361" y="402" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12012" x="361" y="342" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12012" x="411" y="342" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="13050" x="873" y="392" w="45" h="45" t="control_curtain" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="13050" x="787" y="392" w="45" h="45" t="control_curtain" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12011" x="115" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12011" x="193" y="427" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12011" x="193" y="379" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12011" x="193" y="474" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="0" x="5" y="35" w="460" h="51" t="text_label" wrap="True" l="0" tags="">SIMULATION MODE</txt>
+      <txt j="54321" x="809" y="47" w="200" h="31" t="text_left_black" wrap="True" l="0" tags="">(string)</txt>
+      <img x="9" y="106" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="26" y="128" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="31" y="113" w="280" h="20" t="text" wrap="False" l="0" tags="">Actuator L1 On/Off : Car Porch</txt>
+      <btn j="15011" x="73" y="213" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L1_On">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="16011" x="177" y="214" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L1_Off">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="12011" x="47" y="145" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <img x="353" y="106" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="370" y="128" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="404" y="113" w="224" h="20" t="text" wrap="False" l="0" tags="">Actuator L2 On/Off : Kitchen</txt>
+      <btn j="15012" x="417" y="213" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L2_On">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="16012" x="521" y="214" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L2_Off">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="12012" x="391" y="145" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <img x="177" y="582" w="320" h="184" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <img x="194" y="605" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="0" x="228" y="590" w="224" h="20" t="text" wrap="False" l="0" tags="">Actuator L3 On/Off : Entrance</txt>
+      <btn j="15013" x="241" y="690" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L3_On">
+        <inactive s="0">Lights
+On</inactive>
+        <active s="0">Lights
+On</active>
+      </btn>
+      <btn j="16013" x="345" y="691" w="96" h="52" t="btn_sq_small_stretch" flip="None" sim="0" l="0" s="1" tags="" cmd="L3_Off">
+        <inactive s="0">Lights
+Off</inactive>
+        <active s="0">Lights
+Off</active>
+      </btn>
+      <txt j="12013" x="215" y="622" w="248" h="50" t="text_label" wrap="True" l="0" tags="">Lights</txt>
+      <btn j="12013" x="403" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12013" x="334" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <btn j="12013" x="266" y="527" w="40" h="40" t="control_lights_round" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+      <txt j="12014" x="640" y="572" w="161" h="50" t="text_label_small" wrap="True" l="0" tags="">Lights</txt>
+      <img x="694" y="106" w="310" h="181" j="0" clickthrough="1" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_dark_overlay.png</img>
+      <txt j="0" x="694" y="110" w="310" h="20" t="text" wrap="True" l="0" tags="">Automation : Curtains</txt>
+      <img x="704" y="126" w="290" h="149" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">bg_power_socket_menu.png</img>
+      <txt j="13050" x="725" y="140" w="249" h="59" t="text_curtain" wrap="True" l="0" tags="">Curtains</txt>
+      <btn j="13250" x="815" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="" cmd="Curtains_Stop">
+        <inactive s="0">
+          <img x="12" y="2" w="45" h="45">transport_med_stop_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="12" y="2" w="45" h="45">transport_med_stop_on.png</img>
+        </active>
+      </btn>
+      <btn j="13150" x="894" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="">
+        <actions>
+          <action>
+            <press delay="0" hold="0" repeat="0" command="Curtains_Close" />
+            <press delay="5000" hold="0" repeat="0" command="Curtains_Stop" />
+          </action>
+        </actions>
+        <inactive s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_close_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_close_on.png</img>
+        </active>
+      </btn>
+      <btn j="13350" x="735" y="209" w="72" h="52" t="btn_sq_small_stretch" flip="None" sim="2" l="0" s="0" tags="">
+        <actions>
+          <action>
+            <press delay="0" hold="0" repeat="0" command="Curtains_Open" />
+            <press delay="5000" hold="0" repeat="0" command="Curtains_Stop" />
+          </action>
+        </actions>
+        <inactive s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_open_off.png</img>
+        </inactive>
+        <active s="0">
+          <img x="13" y="3" w="45" h="45">transport_med_open_on.png</img>
+        </active>
+      </btn>
+      <txt j="0" x="683" y="47" w="130" h="36" t="text_left_black" wrap="True" l="0" tags="">Feedback from 
+Simulation :</txt>
+      <btn j="0" x="482" y="34" w="112" h="52" t="btn_sq_small_stretch" flip="ControllerMode" sim="1" l="0" s="1" tags="">
+        <inactive s="0">Controller Mode</inactive>
+        <active s="0">Controller Mode</active>
+      </btn>
+      <img x="611" y="482" w="40" h="40" j="0" clickthrough="0" refresh="0" l="0" noCache="0" downloadIndicator="0" clearOnURLChange="0" tags="">lights_chandelier_off.png</img>
+      <btn j="12014" x="611" y="482" w="40" h="40" t="lights_chandelier" flip="None" sim="0" l="0" s="1" tags="">
+        <inactive s="0">
+        </inactive>
+        <active s="0">
+        </active>
+      </btn>
+    </landscape>
+  </page>
+</gui>
